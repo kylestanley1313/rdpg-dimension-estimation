@@ -91,7 +91,7 @@ test_dim <- function(B, A.vecs, A.vals, D.null) {
   
   for (b in 1:B) {
     A.star <- sim_A_from_Z(Z.hat)
-    lambdas.star[b] <- svd(A.star)$d[D.null+1]
+    lambdas.star[b] <- eigen(A.star)$values[D.null+1]
   }
   
   p <- sum(lambdas.star > A.vals[D.null+1]) / B
@@ -102,13 +102,13 @@ test_dim <- function(B, A.vecs, A.vals, D.null) {
 
 test_dims <- function(B, A, D) {
   
-  A.svd <- svd(A)
+  A.eigen <- eigen(A)
   cols <- c('D.null', 'p')
   res <- data.frame(matrix(nrow = 0, ncol = length(cols)))
   colnames(res) <- cols
   
   for (d in 1:(D+2)) {
-    p <- test_dim(B, A.svd$u, A.svd$d, d)
+    p <- test_dim(B, A.eigen$vectors, A.eigen$values, d)
     res[nrow(res)+1,] <- c(d, p)
   }
   
@@ -152,7 +152,6 @@ for (N in Ns) {
 }
 
 configs <- list(configs[[1]], configs[[2]])  ## DEBUGGING
-
 
 ## Process configs in parallel
 print("----- START PROCESSING -----")
