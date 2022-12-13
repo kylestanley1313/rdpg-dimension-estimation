@@ -23,6 +23,7 @@ gen_config <- function(id, reps, N, D, B) {
 }
 
 
+## TODO: Optimize this (avoid redundant matrix computation)
 sim_A_from_Z <- function(Z) {
   
   N <- nrow(Z)
@@ -151,7 +152,6 @@ for (N in Ns) {
   }
 }
 
-configs <- list(configs[[1]], configs[[2]])  ## DEBUGGING
 
 ## Process configs in parallel
 print("----- START PROCESSING -----")
